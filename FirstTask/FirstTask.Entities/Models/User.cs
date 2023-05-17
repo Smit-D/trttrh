@@ -19,10 +19,12 @@ namespace FirstTask.Entities.Models
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
         public byte? GenderId { get; set; }
+        public byte? RoleId { get; set; }
 
         public virtual City? City { get; set; }
         public virtual Country? Country { get; set; }
         public virtual Gender? Gender { get; set; }
+        public virtual Role? Role { get; set; }
         public virtual State? State { get; set; }
     }
 }

@@ -3,7 +3,6 @@
 
 // Write your JavaScript code.
 $('#CountryId').change(function (event) {
-    debugger
     if (event.target.value > 0) {
         $.ajax({
             url: `/Home/GetStateListByCountryIdJson/?countryId=${event.target.value}`,
@@ -26,14 +25,13 @@ $('#CountryId').change(function (event) {
     }
 });
 $('#StateId').change(function (event) {
-    debugger
     if (event.target.value > 0) {
         $.ajax({
             url: `/Home/GetCityListByStateIdJson/?stateId=${event.target.value}`,
             type: 'get',
             success: function (result) {
                 if (result != null) {
-                    let html = `<option value="">Select State</option>`;
+                    let html = `<option value="">Select City</option>`;
 
 
                     $.each(result, function (index, value) {

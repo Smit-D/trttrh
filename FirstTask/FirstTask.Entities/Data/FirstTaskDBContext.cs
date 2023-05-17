@@ -20,6 +20,7 @@ namespace FirstTask.Entities.Data
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<Country> Countries { get; set; } = null!;
         public virtual DbSet<Gender> Genders { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<State> States { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
@@ -99,6 +100,23 @@ namespace FirstTask.Entities.Data
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.RoleId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.RoleName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<State>(entity =>
             {
                 entity.ToTable("State");
@@ -149,7 +167,7 @@ namespace FirstTask.Entities.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(20)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PhoneNumber)
@@ -172,6 +190,11 @@ namespace FirstTask.Entities.Data
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.GenderId)
                     .HasConstraintName("fk_User_GenderId_Gender");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("fk_User_RoleId_Roles");
 
                 entity.HasOne(d => d.State)
                     .WithMany(p => p.Users)

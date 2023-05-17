@@ -24,6 +24,7 @@ namespace FirstTask.Entities.ViewModels
         public string Email { get; set; } = string.Empty;
         [Required]
         [DataType(DataType.Password, ErrorMessage = "Enter Valid Password")]
+        [RegularExpression(@"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$",ErrorMessage = "Enter Strong Password")]
         public string Password { get; set; } = string.Empty;
         [NotMapped]
         [DataType(DataType.Password, ErrorMessage = "Enter Valid Password")]
@@ -61,7 +62,7 @@ namespace FirstTask.Entities.ViewModels
                 CountryId = CountryId,
                 StateId = StateId,
                 CityId = CityId,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
             };
             return user;
         }

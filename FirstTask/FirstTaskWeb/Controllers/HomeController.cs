@@ -2,6 +2,7 @@
 using FirstTask.Entities.Models;
 using FirstTask.Entities.ViewModels;
 using FirstTask.Repository.Interface;
+using FirstTaskWeb.AuthHelper;
 using FirstTaskWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +13,18 @@ namespace FirstTaskWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
         private readonly INotyfService _notify;
         private readonly IUserRepository _userRepository;
         private readonly IListRepository _listRepository;
-        public HomeController(ILogger<HomeController> logger, INotyfService notify, IUserRepository userRepository, IListRepository listRepository)
+        public HomeController(IConfiguration configuration, ILogger<HomeController> logger, INotyfService notify, IUserRepository userRepository, IListRepository listRepository)
         {
+            _configuration = configuration; 
             _logger = logger;
             _notify = notify;
             _userRepository = userRepository;
             _listRepository = listRepository;
         }
-
         public IActionResult Index(User model)
         {
             return View(model);
@@ -40,6 +42,7 @@ namespace FirstTaskWeb.Controllers
             return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM model)
         {
             try
@@ -76,6 +79,7 @@ namespace FirstTaskWeb.Controllers
             return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model)
         {
             try
@@ -88,7 +92,9 @@ namespace FirstTaskWeb.Controllers
                         var CheckPassword = BCrypt.Net.BCrypt.Verify(model.Password.ToLower(), FindUser.Password);
                         if (CheckPassword == true)
                         {
-                            TempData["success"] = $"Welcome {FindUser.FirstName + " " + FindUser.LastName }";
+                            var jwtSettings = _configuration.GetSection(nameof(JWTSettings)).Get<JWTSettings>();
+                            var token = JwtTokenHelper.GenerateToken(jwtSettings, FindUser);
+                            HttpContext.Session.SetString("Token",token);
                             _notify.Success($"Welcome User:{FindUser.FirstName + " " + FindUser.LastName }", durationInSeconds: 5);
                             return RedirectToAction("Index", FindUser);
                         }

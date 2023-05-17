@@ -1,1 +1,1 @@
-Scaffold-Dbcontext -provider Microsoft.EntityFrameworkCore.SqlServer -connection "Data Source=SerName;DataBase=DBName;User ID=sa;Password=password;" -OutputDir "Models" -ContextDir "Data" -f
+Scaffold-Dbcontext -provider Microsoft.EntityFrameworkCore.SqlServer -connection "Data Source=PCT79\SQL2019;DataBase=FirstTaskDB;User ID=sa;Password=Tatva@123;" -OutputDir "Models" -ContextDir "Data" -f

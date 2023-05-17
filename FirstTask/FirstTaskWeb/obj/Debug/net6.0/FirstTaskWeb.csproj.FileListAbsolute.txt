@@ -280,3 +280,5 @@ D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\obj\Debug\net6.0\FirstTaskWeb.pdb
 D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\obj\Debug\net6.0\FirstTaskWeb.genruntimeconfig.cache
 D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\bin\Debug\net6.0\AspNetCoreHero.ToastNotification.Views.dll
 D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\bin\Debug\net6.0\AspNetCoreHero.ToastNotification.dll
+D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\SMIT_TATVA\MyTasks\FirstTask\FirstTaskWeb\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
