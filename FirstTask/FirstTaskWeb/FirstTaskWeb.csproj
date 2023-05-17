@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FirstTask.Entities\FirstTask.Entities.csproj" />
+    <ProjectReference Include="..\FirstTask.Repository\FirstTask.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

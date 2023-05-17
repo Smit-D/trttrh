@@ -1,0 +1,102 @@
+﻿@model RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Register" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <div class="row">
+                <div class="col form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input title="Enter Email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input title="Enter Password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+              <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input title="Enter Confirm Password" asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Avtar" class="control-label"></label>
+                <input title="Upload your profile photo" type="file" accept=".jpeg,.jpg, .png" asp-for="Avtar" class="form-control" />
+                <span asp-validation-for="Avtar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+              <div class="form-group my-2">
+                <label for="GenderId" class="control-label">Gender:</label>&nbsp;
+                <input type="radio" name="GenderId" value="1" class="form-check-input" /> Male
+                <input type="radio" name="GenderId" value="2" class="form-check-input" /> Female
+                <input type="radio" name="GenderId" value="3" class="form-check-input" /> Others
+                <span asp-validation-for="GenderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class ="form-control" asp-items="Model?.CountryList">
+                    <option value="" >Select Country</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label"></label>
+                 <select asp-for="StateId" class ="form-control" asp-items="Model?.CountryList">
+                     <option value="" >Select State</option>
+                 </select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class ="form-control" asp-items="Model?.CountryList">
+                     <option value="" >Select City</option>
+                </select>
+                    
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+            <div class="d-flex my-3">
+                <div class="form-group me-2">
+                    <input type="submit" value="Register" class="btn btn-success" />
+                </div>
+                <div class="form-group">
+                    <input type="reset" value="Reset" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+         <p>Already Registered? <a style="text-decoration:none;" asp-controller="Home" asp-action="Login">Login</a></p>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+    
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+}
+}

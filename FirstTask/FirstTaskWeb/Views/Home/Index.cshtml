@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model User
+<div class="text-center">
+    @{
+        if(Model is not null)
+        {
+            <h1 class="display-4">Welcome @Model.FirstName @Model.LastName To FirstTaskApp</h1>
+            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        }
+        else
+        {
+            
+            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        }
+    }
+            
+</div>
