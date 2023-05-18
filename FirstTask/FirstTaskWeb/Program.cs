@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = false,
-            ValidateIssuerSigningKey = true,
+            //ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
@@ -78,7 +78,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 //app.UseSession();
-app.Use(async (context, next) => {
+/*app.Use(async (context, next) => {
     var token = context.Request.Cookies["JWTToken"]?.ToString(); //Store in httponly cookie
     if (!string.IsNullOrWhiteSpace(token))
     {
@@ -92,7 +92,7 @@ app.Use(async (context, next) => {
         }
     }
     await next();
-});
+});*/
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

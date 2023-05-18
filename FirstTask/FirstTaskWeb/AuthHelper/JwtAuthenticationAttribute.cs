@@ -12,14 +12,19 @@ namespace FirstTaskWeb.AuthHelper
             if (!string.IsNullOrEmpty(token))
             {
 
-                var tokenIsValid = JwtTokenHelper.ValidateToken(token);
+                var principles = JwtTokenHelper.ValidateToken(token);
 
-                if (!tokenIsValid)
+                if (principles == null)
                 {
                     // Redirect the user to the login page
                     filterContext.Result = new RedirectResult("~/User/Login");
-                   // filterContext.Result = new UnauthorizedResult();
+                    // filterContext.Result = new UnauthorizedResult();
 
+                }
+                else
+                {
+                    filterContext.HttpContext.User = principles;    
+                    base.OnActionExecuting(filterContext);
                 }
             }
 

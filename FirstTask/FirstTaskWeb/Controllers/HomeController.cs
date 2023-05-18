@@ -30,7 +30,7 @@ namespace FirstTaskWeb.Controllers
             _userRepository = userRepository;
             _listRepository = listRepository;
         }
-
+        [JwtAuthentication]
         public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)

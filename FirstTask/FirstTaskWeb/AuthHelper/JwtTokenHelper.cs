@@ -25,7 +25,7 @@ namespace FirstTaskWeb.AuthHelper
             _jwtSettings = jwtSettings;
 
             /* if (jwtSetting == null)
-                 return string.Empty;*/
+                 return string.Empty;*//*
             
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -45,20 +45,20 @@ namespace FirstTaskWeb.AuthHelper
                 expires: DateTime.UtcNow.AddMinutes(15), // Default 5 mins, max 1 day
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-            /*var tokenHandler = new JwtSecurityTokenHandler();
+            return new JwtSecurityTokenHandler().WriteToken(token);*/
+            var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
-         
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
+            var claims = new ClaimsIdentity(new Claim[]
+              {
+                new Claim(ClaimTypes.Name,model.UserId.ToString()),
                 new Claim(ClaimTypes.UserData,model.UserId.ToString()),
-                new Claim(ClaimTypes.Name, model.FirstName + " "+ model.LastName),
                 new Claim(ClaimTypes.NameIdentifier, model.FirstName + " "+ model.LastName),
                 new Claim(ClaimTypes.Role, model.RoleId == 1? nameof(UserRole.User):nameof(UserRole.Admin)),
-                new Claim("UserData", JsonSerializer.Serialize(model))  // Additional Claims storing whole object
-            }),
+                new Claim("UserData", JsonSerializer.Serialize(model))  // Additional Claims
+            });
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = claims,
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Issuer = jwtSettings.Issuer,
@@ -66,9 +66,9 @@ namespace FirstTaskWeb.AuthHelper
                 IssuedAt = DateTime.UtcNow,
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);*/
+            return tokenHandler.WriteToken(token);
         }
-        public static bool ValidateToken(string token)
+        public static ClaimsPrincipal? ValidateToken(string token)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace FirstTaskWeb.AuthHelper
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true,// Validate the token's signature
+                    //ValidateIssuerSigningKey = true,// Validate the token's signature
                     ValidAudience = _jwtSettings.Audience,
                     ValidIssuer = _jwtSettings.Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), // Set the secret key used to sign the token
@@ -88,15 +88,16 @@ namespace FirstTaskWeb.AuthHelper
                 var tokenHandler = new JwtSecurityTokenHandler();
 
                 // Validate the token
-                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
-
+                //ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validateToken);
                 // Token is valid
-                return true;
+                //if(claimsPrincipal == null)
+                return claimsPrincipal;
             }
             catch (SecurityTokenException)
             {
                 // Token validation failed
-                return false;
+                return null;
             }
         }
     }
