@@ -5,7 +5,7 @@
 $('#CountryId').change(function (event) {
     if (event.target.value > 0) {
         $.ajax({
-            url: `/Home/GetStateListByCountryIdJson/?countryId=${event.target.value}`,
+            url: `/Ajax/GetStateListByCountryIdJson/?countryId=${event.target.value}`,
             type: 'get',
             success: function (result) {
                 let html = `<option value="">Select State</option>`;
@@ -27,7 +27,7 @@ $('#CountryId').change(function (event) {
 $('#StateId').change(function (event) {
     if (event.target.value > 0) {
         $.ajax({
-            url: `/Home/GetCityListByStateIdJson/?stateId=${event.target.value}`,
+            url: `/Ajax/GetCityListByStateIdJson/?stateId=${event.target.value}`,
             type: 'get',
             success: function (result) {
                 if (result != null) {

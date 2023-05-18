@@ -53,11 +53,11 @@ namespace FirstTask.Entities.ViewModels
         {
             User user = new User()
             {
-                FirstName = FirstName,
-                LastName = string.IsNullOrEmpty(LastName)?null:LastName,
-                Email = Email.ToLower(),
+                FirstName = FirstName.Trim(),
+                LastName = string.IsNullOrEmpty(LastName)?null:LastName.Trim(),
+                Email = Email.Trim().ToLower(),
                 Password = BCrypt.Net.BCrypt.HashPassword(Password.ToLower()),
-                PhoneNumber = PhoneNumber,
+                PhoneNumber = PhoneNumber.Trim(),
                 GenderId = GenderId,
                 CountryId = CountryId,
                 StateId = StateId,

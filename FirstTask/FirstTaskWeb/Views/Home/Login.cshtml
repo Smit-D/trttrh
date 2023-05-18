@@ -10,10 +10,11 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input title="Enter Email" asp-for="Email" class="form-control" />
+                <input title="Enter Valid Email" asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
