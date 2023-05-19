@@ -20,7 +20,7 @@ builder.Services.AddDbContext<FirstTaskDBContext>(options => options.UseSqlServe
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IListRepository, ListRepository>();
-
+builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

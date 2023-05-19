@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 
 namespace FirstTaskWeb.Controllers
@@ -33,7 +34,7 @@ namespace FirstTaskWeb.Controllers
         [JwtAuthentication]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated) //true
             {
                 var getUserDetails = await _userRepository.GetFirstOrDefaultAsync(x => x.UserId == Convert.ToInt32(User.Identity.Name));
                 return View(getUserDetails);
@@ -51,10 +52,6 @@ namespace FirstTaskWeb.Controllers
         [HttpGet]
         public IActionResult Login(string? emailId)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index");
-            }
             if (!string.IsNullOrEmpty(emailId))
             {
                 //Populated EmailId in model
@@ -62,10 +59,29 @@ namespace FirstTaskWeb.Controllers
                 model.Email = emailId;
                 return View(model);
             }
+            var token = HttpContext.Request.Cookies["JWTToken"]?.ToString();
+            if(token != null)
+            {
+                var principles = JwtTokenHelper.ValidateToken(token);
+                if (principles != null)
+                {
+                    if (principles.Identity.IsAuthenticated)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            else
+            {
+                return View();
+            }
+           
             return View();
+
         }
         /// <summary>
-        /// Post Method of Login Check Credentials if all correct then Redirect to Home Page
+        /// Post Method of Login Check Credentials 
+        /// If all correct then Redirect to Home Page
         /// Logic: Check 
         /// 1. If Email is present in DB if present then check password is correct respective to Email
         /// => If password is not correct return message invalid credentials Else Redirect to Home Page with Message Welcome user: Username
@@ -93,7 +109,14 @@ namespace FirstTaskWeb.Controllers
                             //Add Token to cookie
                             if (token != null)
                             {
-                                HttpContext.Response.Cookies.Append("JWTToken", token, new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMinutes(2) });
+                                //HttpContext.Response.Headers.Authorization.Append(token);
+                               /* var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7284/Home/Index");
+                                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                                //HttpContext.Request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token); 
+/*                                HttpClient client = new HttpClient();
+                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.ToString()); */
+                                //HttpContext.Request.Headers.Authorization = token;
+                                HttpContext.Response.Cookies.Append("JWTToken", token, new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMinutes(5) });
                                 _notify.Success($"Welcome User:{RegisteredUser.FirstName + " " + RegisteredUser.LastName }", durationInSeconds: 5);
                                 return RedirectToAction("Index");
                             }
