@@ -36,7 +36,7 @@ namespace FirstTask.Entities.ViewModels
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
                    ErrorMessage = "Entered phone format is not valid.")]
         public string PhoneNumber { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Please select gender")]
         public byte GenderId { get; set; }
         [Required]
         public long CountryId { get; set; }

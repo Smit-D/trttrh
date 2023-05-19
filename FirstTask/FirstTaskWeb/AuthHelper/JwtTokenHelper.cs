@@ -24,28 +24,6 @@ namespace FirstTaskWeb.AuthHelper
         {
             _jwtSettings = jwtSettings;
 
-            /* if (jwtSetting == null)
-                 return string.Empty;*//*
-            
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Name,model.UserId.ToString()),
-                new Claim(ClaimTypes.UserData,model.UserId.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, model.FirstName + " "+ model.LastName),
-                new Claim(ClaimTypes.Role, model.RoleId == 1? nameof(UserRole.User):nameof(UserRole.Admin)),
-                new Claim("UserData", JsonSerializer.Serialize(model))  // Additional Claims
-            };
-
-            var token = new JwtSecurityToken(
-                jwtSettings.Issuer,
-                jwtSettings.Audience,
-                claims,
-                expires: DateTime.UtcNow.AddMinutes(15), // Default 5 mins, max 1 day
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);*/
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
             var claims = new ClaimsIdentity(new Claim[]
@@ -91,8 +69,15 @@ namespace FirstTaskWeb.AuthHelper
                 //ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
                 ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validateToken);
                 // Token is valid
-                //if(claimsPrincipal == null)
-                return claimsPrincipal;
+                if (claimsPrincipal != null)
+                {
+
+                    return claimsPrincipal;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (SecurityTokenException)
             {

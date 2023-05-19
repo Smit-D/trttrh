@@ -60,7 +60,7 @@ namespace FirstTaskWeb.Controllers
                 return View(model);
             }
             var token = HttpContext.Request.Cookies["JWTToken"]?.ToString();
-            if(token != null)
+            if (token != null)
             {
                 var principles = JwtTokenHelper.ValidateToken(token);
                 if (principles != null)
@@ -75,7 +75,7 @@ namespace FirstTaskWeb.Controllers
             {
                 return View();
             }
-           
+
             return View();
 
         }
@@ -110,11 +110,11 @@ namespace FirstTaskWeb.Controllers
                             if (token != null)
                             {
                                 //HttpContext.Response.Headers.Authorization.Append(token);
-                               /* var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7284/Home/Index");
-                                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
+                                /* var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7284/Home/Index");
+                                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);*/
                                 //HttpContext.Request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token); 
-/*                                HttpClient client = new HttpClient();
-                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.ToString()); */
+                                /*                                HttpClient client = new HttpClient();
+                                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.ToString()); */
                                 //HttpContext.Request.Headers.Authorization = token;
                                 HttpContext.Response.Cookies.Append("JWTToken", token, new CookieOptions { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMinutes(5) });
                                 _notify.Success($"Welcome User:{RegisteredUser.FirstName + " " + RegisteredUser.LastName }", durationInSeconds: 5);
@@ -137,6 +137,11 @@ namespace FirstTaskWeb.Controllers
                         return RedirectToAction("Register", new { emailId = loginModel.Email });
                     }
                 }
+                else
+                {
+                    //ModeState invalid or 
+                    return View(loginModel);
+                }
             }
             catch
             {
@@ -144,8 +149,7 @@ namespace FirstTaskWeb.Controllers
                 _notify.Error("Try Again Later!", durationInSeconds: 3);
                 return View(loginModel);
             }
-            //ModeState invalid or 
-            return View(loginModel);
+
         }
         #endregion
 
@@ -214,7 +218,7 @@ namespace FirstTaskWeb.Controllers
             {
                 _notify.Error("Registration Service is currently unavailable. Try Again Later!");
             }
-
+            registerModel.CountryList = await _listRepository.GetCountryListAsync();
             return View(registerModel);
         }
 

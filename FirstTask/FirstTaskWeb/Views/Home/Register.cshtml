@@ -50,12 +50,11 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-
-              <div class="form-group my-2">
+             <div class="form-group my-2">
                 <label for="GenderId" class="control-label">Gender:</label>&nbsp;
-                <input type="radio" name="GenderId" value="1" class="form-check-input" /> Male
-                <input type="radio" name="GenderId" value="2" class="form-check-input" /> Female
-                <input type="radio" name="GenderId" value="3" class="form-check-input" /> Others
+                <input title="Male" type="radio" asp-for="GenderId" value="1" class="form-check-input" placeholder="Male" /> Male
+                <input title="Female" type="radio" asp-for="GenderId" value="2" class="form-check-input" placeholder="Female" /> Female
+                <input title="Others" type="radio" asp-for="GenderId" value="3" class="form-check-input" placeholder="Others" /> Others
                 <span asp-validation-for="GenderId" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -20,22 +20,8 @@ builder.Services.AddDbContext<FirstTaskDBContext>(options => options.UseSqlServe
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IListRepository, ListRepository>();
-builder.Services.AddHttpClient();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = false,
-            //ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
-        };
-    });
-/*builder.Services.AddAuthentication(options =>
+
+builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,7 +40,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         //ValidAlgorithms = new[] { JwtBearerDefaults.AuthenticationScheme },
  
     };
-});*/
+});
+
+builder.Services.AddAuthorization();
+
 //builder.Services.AddMvc().AddSessionStateTempDataProvider();
 //session define
 /*builder.Services.AddSession(options =>
@@ -66,7 +55,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     options.Cookie.IsEssential = true;
 });*/
 
-//builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
